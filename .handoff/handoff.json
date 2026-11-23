@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-23T23:00:15.749Z",
+  "project": "claude-code",
+  "session": "fea1867a",
+  "headline": "Goal: redesign Gift On Demand Shopify store (giftondemand.in, Kalles 2.5 vintage theme, B2B logo-branded corporate gifts",
+  "summary": "Researched niche + printmine.in (via Exa; site blocked by proxy). First built minimal \"Boardroom\" look; user rejected (too plain, few products, low trust, wrong fonts) and chose Bold & colourful. Built gx-* sections on draft: hero (rotating word, live Judge.me 4.72/882 chips, 4 price cards), product tabs w/ gx-card (stars, pack price = price x MOQ metafield, %OFF, bestseller), client-side logo preview tool + PDP handoff, category tiles, Judge.me review wall, why-us, brand story, restyled bulk quote + 8-Q FAQ, floating WhatsApp. User phone showed homepage starting at quote section: save had silently dropped gx sections (25-section cap + duplicate block IDs). Fixed: removed 9 disabled sections, renamed story blocks, recommitted, verified saved state.",
+  "taskDescription": "Goal: redesign Gift On Demand Shopify store (giftondemand.in, Kalles 2.5 vintage theme, B2B logo-branded corporate gifts, India, INR) to look better + more trustworthy than competitor printmine.in, with feature parity. Intent: raise conversion/trust for HR/admin/founder bulk buyers. All work on unpublished draft theme gid://shopify/OnlineStoreTheme/190542250236 \"Boardroom Minimal - Draft - 24 Nov 2026\"; preview https://211sm0-bh.myshopify.com/?preview_theme_id=190542250236. Repo /home/user/claude-code is unrelated (Claude Code fork) — store edited via Shopify MCP only.",
+  "currentStatus": "Done: Bold redesign committed on draft theme 190542250236 (last commit 05db997…, settings_data 22:58:59Z); homepage order gx_hero, gx_products, gx_preview, gx_cats, gx_reviews, gx_why, bm_quote, gx_story, bm_faq, featured_blog; mobile fixes in. Remaining: user review on phone; publish only on explicit yes. Live MAIN theme 190539989244 untouched for visitors but holds older Boardroom (bm-*) commits awaiting publish plus 2 pre-existing unpublished files (god-collections-page.css, templates/agents.md.liquid) — publishing MAIN would push them.",
+  "keyDecisions": [
+    "Decision: work only on duplicate draft theme, never publish without explicit user yes — Reason: live store must stay unchanged during review",
+    "Decision: build new gx-* sections instead of restyling Kalles sections — Reason: Kalles lazysizes images render as placeholders and markup is hard to control; own sections use image_tag and load reliably",
+    "Decision: every trust claim sourced from store's own pages (FAQ, shipping, refund, about) or live data — Reason: avoid fabricated claims; GSTIN 07BRCPA3679P1ZD, free shipping prepaid >₹1,500, 2–4 day production, MOQ from 2, partial COD 30–50%, 48h damage window",
+    "Decision: reviews/ratings read live from Judge.me shop metafields (all_reviews_rating, all_reviews_count, reviews_grid) and product reviews.rating — Reason: real data, auto-updates; no 'Verified' label because verified_buyer=false",
+    "Decision: logo preview fully client-side, sessionStorage handoff to PDP file input via DataTransfer — Reason: no backend; PDP upload field is app-rendered so attach by polling",
+    "Decision: colours via existing god_brand_* + cl_hd/color_primary settings, fonts via fnt_heading2/fnt_bd2 Google Fonts path — Reason: settings-driven, merchant-editable; no new font provider",
+    "Decision: WhatsApp number 919717801827 taken from contact page phone — Reason: no WhatsApp number in theme; flagged to user for confirmation"
+  ],
+  "userContribution": "Connected Shopify store; chose direction 1 then rejected minimal look (too plain, not enough products, not trustworthy, wrong fonts); named printmine.in as competitor; picked Bold & colourful; asked for draft-only preview; tested on phone and reported homepage starting at bulk-quote section.",
+  "userDecisions": [
+    {
+      "decision": "Rebuild in Bold & colourful style benchmarked against printmine.in",
+      "reason": "Minimal draft felt plain, product-light, untrustworthy, wrong fonts",
+      "alternativesRejected": "Boardroom Minimal, Premium dark, Clean marketplace"
+    },
+    {
+      "decision": "Save as Shopify draft to review before going live",
+      "reason": null,
+      "alternativesRejected": "Publishing directly"
+    }
+  ],
+  "failedApproaches": [
+    "Approach: themeDuplicate of MAIN to make draft → Result: copy had only published version, none of committed-unpublished edits → Lesson: re-apply changes to the copy; commits on MAIN are invisible to duplicates",
+    "Approach: commit settings_data together with new section files and >25 homepage sections → Result: commit reported saved but Shopify silently stripped all new sections; screenshots of pending edits looked fine → Lesson: keep content_for_index ≤25, unique block IDs across ALL sections, verify saved file via GraphQL theme.files after commit",
+    "Approach: block IDs s1/s2 in gx_story → Result: rejected, already used by bm_quote → Lesson: block IDs must be globally unique in settings_data",
+    "Approach: curl/Playwright/web-fetch agent to printmine.in and cdn.shopify.com/store preview → Result: proxy 403 / DNS blocked → Lesson: use Exa web_fetch_exa for external pages; cannot render store from container",
+    "Approach: one sed with many -e and /gI flags → Result: sandbox 'exceeded maximum iterations' → Lesson: one sed replacement per line in theme_bash",
+    "Approach: rapid theme_bash calls → Result: rate_limited ~60s → Lesson: batch edits, wait via background sleep before large pastes"
+  ],
+  "blockers": null,
+  "modifiedFiles": [
+    "draft 190542250236 assets/gx-bold.css: new full Bold design system + restyles of bm-quote/bm-faq/bm-trust, header, footer, Kalles cards; mobile fixes appended",
+    "draft assets/gx-preview.js: logo preview tool logic",
+    "draft assets/gx-handoff.js: attaches stored logo to PDP file input",
+    "draft sections/gx-hero|gx-products|gx-preview|gx-cats|gx-reviews|gx-why|gx-story.liquid: new homepage sections with schemas/presets",
+    "draft snippets/gx-card.liquid: product card; snippets/gx-whatsapp.liquid: floating button + PDP handoff hook; snippets/bm-tokens.liquid: font vars now sans fallbacks",
+    "draft layout/theme.liquid: loads gx-bold.css (replaced bm-boardroom.css link), renders gx-whatsapp before </body>",
+    "draft config/settings_schema.json: added Boardroom trust box + Bold: WhatsApp groups",
+    "draft config/settings_data.json: fonts Bricolage Grotesque/Figtree, orange palette, gx sections + order, FAQ 8 Qs, removed 9 disabled sections",
+    "draft locales/en.default.json: bm.* and gx.* keys",
+    "draft sections/cat_heading.liquid + pr_summary.liquid: brown hexes mapped to palette; bm-trust-box rendered before god-order-extras",
+    "draft DESIGN.md: Bold & Bright contract",
+    "MAIN 190539989244: older Boardroom bm-* files + settings committed, awaiting publish (not live)"
+  ],
+  "implicitRules": [
+    "Store: Gift On Demand, Shopify Basic, INR, Kalles 2.5 vintage (no JSON templates; homepage via settings_data content_for_index)",
+    "Edit theme only via Shopify MCP theme_bash/theme_commit/theme_screenshot; theme_screenshot shows pending edits, not saved state",
+    "settings_data.json has /* */ header — strip with sed before jq, or use jq --jsonc",
+    "Product MOQ in metafield custom.minimum_order_quantity (list, use .value.first); Judge.me ratings in reviews.rating / reviews.rating_count",
+    "Never publish (theme_publish) without explicit user approval naming the theme",
+    "Prefix new code gx- (Bold) / bm- (Boardroom); keep copy editable in section settings"
+  ],
+  "nextSteps": [
+    "Get user confirmation draft homepage now renders fully on phone (reload preview link)",
+    "Confirm WhatsApp number 919717801827 or replace in Theme settings > Bold: WhatsApp and bm_quote",
+    "Tune cap/bottle/notebook logo x/y/w in gx_preview blocks; suggest plain product mockups",
+    "Suggest real team/founder photo for gx_story; verify 'Trusted by 58000+ brands' product-page image claim",
+    "Remind user: all products show 0 inventory, 6 empty collections — fix in admin",
+    "Decide whether to revert queued bm-* changes on MAIN 190539989244 before any MAIN publish",
+    "Publish draft 190542250236 only on explicit user approval"
+  ],
+  "keywords": [
+    "gift on demand",
+    "shopify theme",
+    "kalles",
+    "printmine",
+    "logo preview",
+    "draft theme",
+    "judge.me",
+    "settings_data"
+  ]
+}

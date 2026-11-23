@@ -1,0 +1,1 @@
+2026-11-23T23:00:15.749Z | gift on demand, shopify theme, kalles, printmine, logo preview, draft theme, judge.me, settings_data | Goal: redesign Gift On Demand Shopify store (giftondemand.in, Kalles 2.5 vintage theme, B2B logo-branded corporate gifts | 2026-11-23/handoff-2026-11-23T23-00-15-749Z.md
